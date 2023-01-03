@@ -6,14 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.*;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import ltd.newbee.mall.NewBeeMallApplication;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = NewBeeMallApplication.class)
 public class SpringDataRedisTest {
 
     @Autowired
@@ -24,6 +27,7 @@ public class SpringDataRedisTest {
      */
     @Test
     public void testString(){
+    	System.out.println("开始：testString！");
         redisTemplate.opsForValue().set("city123","beijing");
 
         String value = (String) redisTemplate.opsForValue().get("city123");
@@ -40,6 +44,7 @@ public class SpringDataRedisTest {
      */
     @Test
     public void testHash(){
+    	System.out.println("开始：testHash！");
         HashOperations hashOperations = redisTemplate.opsForHash();
 
         //存值
@@ -54,13 +59,13 @@ public class SpringDataRedisTest {
         //获得hash结构中的所有字段
         Set keys = hashOperations.keys("002");
         for (Object key : keys) {
-            System.out.println(key);
+            System.out.println("002-key"+key);
         }
 
         //获得hash结构中的所有值
         List values = hashOperations.values("002");
         for (Object value : values) {
-            System.out.println(value);
+            System.out.println("002-value"+value);
         }
     }
 
@@ -69,6 +74,7 @@ public class SpringDataRedisTest {
      */
     @Test
     public void testList(){
+    	System.out.println("开始：testList！");
         ListOperations listOperations = redisTemplate.opsForList();
 
         //存值
@@ -96,6 +102,7 @@ public class SpringDataRedisTest {
      */
     @Test
     public void testSet(){
+    	System.out.println("开始：testSet！");
         SetOperations setOperations = redisTemplate.opsForSet();
 
         //存值
@@ -104,7 +111,7 @@ public class SpringDataRedisTest {
         //取值
         Set<String> myset = setOperations.members("myset");
         for (String o : myset) {
-            System.out.println(o);
+            System.out.println("mysetStart:"+o);
         }
 
         //删除成员
@@ -113,7 +120,7 @@ public class SpringDataRedisTest {
         //取值
         myset = setOperations.members("myset");
         for (String o : myset) {
-            System.out.println(o);
+            System.out.println("mysetEnd:"+o);
         }
 
     }
@@ -123,6 +130,7 @@ public class SpringDataRedisTest {
      */
     @Test
     public void testZset(){
+    	System.out.println("开始：testZset！");
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
 
         //存值
@@ -134,7 +142,7 @@ public class SpringDataRedisTest {
         //取值
         Set<String> myZset = zSetOperations.range("myZset", 0, -1);
         for (String s : myZset) {
-            System.out.println(s);
+            System.out.println("myZsetStart:"+s);
         }
 
         //修改分数
@@ -143,7 +151,7 @@ public class SpringDataRedisTest {
         //取值
         myZset = zSetOperations.range("myZset", 0, -1);
         for (String s : myZset) {
-            System.out.println(s);
+            System.out.println("myZset:"+s);
         }
 
         //删除成员
@@ -152,7 +160,7 @@ public class SpringDataRedisTest {
         //取值
         myZset = zSetOperations.range("myZset", 0, -1);
         for (String s : myZset) {
-            System.out.println(s);
+            System.out.println("myZsetEnd:"+s);
         }
     }
 
@@ -161,10 +169,11 @@ public class SpringDataRedisTest {
      */
     @Test
     public void testCommon(){
+    	System.out.println("开始：testCommon！");
         //获取Redis中所有的key
         Set<String> keys = redisTemplate.keys("*");
         for (String key : keys) {
-            System.out.println(key);
+            System.out.println("testCommon:"+key);
         }
 
         //判断某个key是否存在
