@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.*;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import ltd.newbee.mall.NewBeeMallApplication;
 
@@ -15,17 +15,19 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings({"rawtypes","unchecked"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = NewBeeMallApplication.class)
+@WebAppConfiguration
 public class SpringDataRedisTest {
 
-    @Autowired
+	@Autowired
     private RedisTemplate redisTemplate;
 
     /**
      * 操作String类型数据
      */
-    @Test
+	@Test
     public void testString(){
     	System.out.println("开始：testString！");
         redisTemplate.opsForValue().set("city123","beijing");
@@ -72,7 +74,7 @@ public class SpringDataRedisTest {
     /**
      * 操作List类型的数据
      */
-    @Test
+	@Test
     public void testList(){
     	System.out.println("开始：testList！");
         ListOperations listOperations = redisTemplate.opsForList();
@@ -86,14 +88,14 @@ public class SpringDataRedisTest {
         for (String value : mylist) {
             System.out.println(value);
         }
-
+        listOperations.leftPush("mylist","a");
         //获得列表长度 llen
         Long size = listOperations.size("mylist");
         int lSize = size.intValue();
         for (int i = 0; i < lSize; i++) {
             //出队列
-            String element = (String) listOperations.rightPop("mylist");
-            System.out.println(element);
+            //String element = (String) listOperations.rightPop("mylist");
+            //System.out.println(element);
         }
     }
 
@@ -106,7 +108,7 @@ public class SpringDataRedisTest {
         SetOperations setOperations = redisTemplate.opsForSet();
 
         //存值
-        setOperations.add("myset","a","b","c","a");
+        setOperations.add("myset","a","b","c","a","E");
 
         //取值
         Set<String> myset = setOperations.members("myset");
@@ -116,7 +118,6 @@ public class SpringDataRedisTest {
 
         //删除成员
         setOperations.remove("myset","a","b");
-
         //取值
         myset = setOperations.members("myset");
         for (String o : myset) {
@@ -138,6 +139,7 @@ public class SpringDataRedisTest {
         zSetOperations.add("myZset","b",11.0);
         zSetOperations.add("myZset","c",12.0);
         zSetOperations.add("myZset","a",13.0);
+        zSetOperations.add("myZset","e",20.0);
 
         //取值
         Set<String> myZset = zSetOperations.range("myZset", 0, -1);
@@ -181,7 +183,7 @@ public class SpringDataRedisTest {
         System.out.println(itcast);
 
         //删除指定key
-        redisTemplate.delete("myZset");
+        //redisTemplate.delete("myZset");
 
         //获取指定key对应的value的数据类型
         DataType dataType = redisTemplate.type("myset");
