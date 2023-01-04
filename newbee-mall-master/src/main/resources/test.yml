@@ -1,0 +1,51 @@
+#端口号.cache=false
+server:
+      port: 8888
+
+spring:
+      thymeleaf:
+               cache: false
+
+# 字符串
+string.value: Hello!我是锋声!
+# 布尔值，true或false
+boolean.value: true
+boolean.value1: false
+# 整数
+int.value: 10
+int.value1: 0b1010_0111_0100_1010_1110 # 二进制
+# 浮点数
+float.value: 3.14159
+float.value1: 314159e-5 # 科学计数法
+# Null，~代表null
+null.value: ~
+# 时间，时间使用ISO 8601格式，时间和日期之间使用T连接，最后使用+代表时区
+datetime.value: !!timestamp 2021-04-13T10:31:00+08:00
+# 日期,日期必须使用ISO 8601格式，即yyyy-MM-dd
+date.value: !!timestamp 2021-04-13
+
+
+#对象，数组
+person:
+  name: 锋声
+  age: 18
+  man: true
+  address: [深圳, 北京, 广州]
+
+#数组 成员是对象 
+childs:
+  -
+    name: 锋声
+    age: 10
+  -
+    name: 锋声
+    age: 15
+
+childs2: [{name: 小红, age: 10}, {name: 小王, age: 15}]
+
+# 指定为字符串
+string.value2: !!str HelloWorld!
+# !!timestamp指定为日期时间类型
+datetime.value2: !!timestamp 2021-04-13T02:31:00+08:00
+
+
